@@ -27,7 +27,7 @@ class RegistrationForm(CleanEmailMixin, forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ("username", "email")
+        fields = ("email",)
 
     def __init__(self, *args, **kwargs):
         super(RegistrationForm, self).__init__(*args, **kwargs)
@@ -41,18 +41,6 @@ class RegistrationForm(CleanEmailMixin, forms.ModelForm):
             raise forms.ValidationError(_("Do not fill this field."))
 
         return value
-
-    def clean_username(self):
-        username = self.cleaned_data["username"]
-
-        is_taken = User.objects\
-            .filter(username=username)\
-            .exists()
-
-        if is_taken:
-            raise forms.ValidationError(_("The username is taken."))
-
-        return username
 
     def clean_email2(self):
         email = self.cleaned_data.get("email")
