@@ -38,6 +38,8 @@ class UserProfile(models.Model):
         verbose_name_plural = _("forum profiles")
 
     def save(self, *args, **kwargs):
+        if self.last_ip:
+            self.last_ip = self.last_ip.strip()
         if self.user.is_superuser:
             self.is_administrator = True
 
